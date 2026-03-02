@@ -11,7 +11,7 @@ export default function HomeScreen({ navigation }) {
       <Text>Tv Schedule</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Actor Search')}>
-      <Text>Actor Search</Text>
+      <Text>Actor Searches</Text>
       </TouchableOpacity>
     </View>
   );
