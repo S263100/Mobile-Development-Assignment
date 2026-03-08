@@ -19,6 +19,6 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   HomeScreen: {
-    padding: 20
+    padding: 20,
   },
 });
