@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet} from 'react-native';
-import { createStackNavigator } from 'react-native/stack'
+import { createStackNavigator } from '@react-navigation/stack'
+import HomeScreen from '../screens/Home';
 
 export default function HomeNavigator() {
 

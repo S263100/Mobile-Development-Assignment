@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet} from 'react-native';
-import { createStackNavigator } from 'react-native/stack';
-import ShowSearchScreen from '../screens/ActorSearch';
+import { createStackNavigator } from '@react-navigation/stack';
+import ShowSearchScreen from '../screens/ShowSearch';
 
 export default function ActorSearchNavigator() {
 

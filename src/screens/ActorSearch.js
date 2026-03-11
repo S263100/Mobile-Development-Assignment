@@ -1,7 +1,31 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function HomeScreen() {
+export default function ActorSearchScreen({ navigation }) {
+  
+  const [searchQuery, setSearchQuery] = useState('people');
+
+  const [actor, setActors] = useState();
+
+  const searchActor = () => {
+    console.log("Make a call to the API using the search query: " + searchQuery);
+    fetch(`https://api.tvmaze.com/search/people?q=${searchQuery}`)
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json);
+      setActors(json["results"]);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  };
+
+  useEffect(() => {
+    searchActor();
+  }, [searchQuery]);
+
+
+
   return (
     <View style={styles.container}>
       <Text>Actor Search Screen</Text>
