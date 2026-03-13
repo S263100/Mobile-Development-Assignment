@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, Image, Pressable, FlatList } from 'react-native';
 
 export default function ActorSearchScreen({ navigation }) {
   
-  const [searchQuery, setSearchQuery] = useState('people');
+  const [searchQuery, setSearchQuery] = useState('chris');
 
-  const [actor, setActors] = useState();
+  const [actor, setActors] = useState([]);
 
   const searchActor = () => {
     console.log("Make a call to the API using the search query: " + searchQuery);
@@ -13,7 +13,7 @@ export default function ActorSearchScreen({ navigation }) {
     .then((response) => response.json())
     .then((json) => {
       console.log(json);
-      setActors(json["results"]);
+      setActors(json);
     })
     .catch((error) => {
       console.error(error);
@@ -28,7 +28,26 @@ export default function ActorSearchScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text>Actor Search Screen</Text>
+      {actor && actor.length > 0 ? (<View style={styles.resultsContainer}>
+        <FlatList
+        numColumns={2}
+        style={{margin: 10}}
+        data={actor}
+        renderItem={({item}) => (
+        <Pressable style={styles.resultsImageTouchable} onPress={() => navigation.navigate('Actor Details', { actorId: item.person.id })
+          }
+          >
+          <Image
+          style={styles.resultImage}
+          source={{ uri: item.person.image?.medium || 'https://via.placeholder.com/200x300?text=No+Image'}}
+          />
+          <Text style={styles.actorName}>{item.person.name}</Text>
+          </Pressable>
+        )}
+        />
+        </View>) : (<View style={styles.loadingContainer}> 
+        <ActivityIndicator size="large" color="#000"/>
+        </View>)}
     </View>
   );
 }
@@ -37,6 +56,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
   },
+  loadingContainer: {
+    height: '100%',
+    justifyContent: 'center'
+  },
+  resultImage: {
+    width: '100%',
+    height: 150,
+    resizeMode: 'center'
+  },
+  resultsImageTouchable: {
+    flex: 1,
+    margin: 10,
+    alignItems: 'center'
+  },
+  actorName: {
+    marginTop: 5,
+    textAlign: 'center',
+    fontSize: 14,
+  }
 });
