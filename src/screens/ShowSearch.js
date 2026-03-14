@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, FlatList, Image, Pressable} from 'react-native';
+import SearchForm from '../components/SearchForm';
 
 export default function ShowSearchScreen({ navigation }) {
   
-  const [searchQuery, setSearchQuery] = useState('show');
+  const [searchQuery, setSearchQuery] = useState([]);
 
   const [show, setShows] = useState();
 
@@ -26,6 +27,7 @@ export default function ShowSearchScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <SearchForm setSearchQuery={setSearchQuery}/>
       {show && show.length > 0 ? (<View style={styles.resultsContainer}>
         <FlatList
         numColumns={2}

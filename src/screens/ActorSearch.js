@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, Image, Pressable, FlatList } from 'react-native';
+import SearchForm from '../components/SearchForm';
 
 export default function ActorSearchScreen({ navigation }) {
   
@@ -28,6 +29,7 @@ export default function ActorSearchScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <SearchForm setSearchQuery={setSearchQuery}/>
       {actor && actor.length > 0 ? (<View style={styles.resultsContainer}>
         <FlatList
         numColumns={2}

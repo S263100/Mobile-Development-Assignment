@@ -26,7 +26,8 @@ export default function ActorDetailsScreen({ route, navigation }) {
       <View style={styles.detailsContainer}>
         <Image style={styles.resultImage}
           source={{ uri: actorData.image?.original }}/>
-      <Text style={styles.showTitle}>{actorData.name}</Text>
+      <Text style={styles.actorName}>{actorData.name}</Text>
+      <Text style={styles.actorGender}>Gender: {actorData.gender}</Text>
       </View>
     ) : (
       <View style={styles.loadingContainer}>
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
   resizeMode: 'cover',
   marginBottom: 10
 },
-showTitle: {
+actorName: {
   fontSize: 24,
   fontWeight: 'bold',
   marginBottom: 5
