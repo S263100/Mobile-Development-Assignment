@@ -1,33 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import React from 'react';
+import { StatusBar, StyleSheet, View, Text } from 'expo-status-bar';
+import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import HomeNavigator from './src/navigators/Home';
-import ActorSearchNavigator from './src/navigators/ActorSearch';
-import ScheduleNavigator from './src/navigators/Schedule';
-import ShowSearchNavigator from './src/navigators/ShowSearch';
+import TabNavigator from './src/navigators/TabNavigator';
+import ShowDetailsScreen from './src/screens/ShowDetails';
+import ActorDetailsScreen from './src/screens/ActorDetails';
 
 export default function App() {
-  const Drawer = createDrawerNavigator();
+  const Stack = createNativeStackNavigator();
   return (
-    <NavigationContainer style={styles.container}>
-      <Drawer.Navigator>
-        <Drawer.Screen name="Home" component={HomeNavigator} options={{ title: 'TvSearch' }}/>
-        <Drawer.Screen name="Show Search" component={ShowSearchNavigator} options={{ title: 'Show Search' }}/>
-        <Drawer.Screen name="Actor Search" component={ActorSearchNavigator} options={{ title: 'Actor Search' }}/>
-        <Drawer.Screen name="Tv Schedule" component={ScheduleNavigator} options={{ title: 'Show Schedule' }}/>
-      </Drawer.Navigator>
-      <StatusBar style="auto" hidden={true}/>
+    <NavigationContainer theme={DarkTheme}>
+      <Stack.Navigator screenOptions={{ headerShown: true }}>
+        <Stack.Screen name="Back" component={TabNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="Show Details" component={ShowDetailsScreen} options={{ title: 'Show Details' }} />
+        <Stack.Screen name="Actor Details" component={ActorDetailsScreen} options={{ title: 'Actor Details' }} />
+      </Stack.Navigator>
+      <StatusBar style="auto" />
     </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#3cf842',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+

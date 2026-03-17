@@ -41,7 +41,7 @@ export default function ActorSearchScreen({ navigation }) {
           >
           <Image
           style={styles.resultImage}
-          source={{ uri: item.person.image?.medium || 'https://via.placeholder.com/200x300?text=No+Image'}}
+          source={{ uri: item.person.image?.medium || 'https://placehold.net/avatar.png'}}
           />
           <Text style={styles.actorName}>{item.person.name}</Text>
           </Pressable>

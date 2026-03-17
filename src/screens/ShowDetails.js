@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
-import { ActivityIndicator, StyleSheet, Text, View, Image } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View, ScrollView, ImageBackground } from 'react-native';
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function ShowDetailsScreen({ route, navigation }) {
   const [showData, setShowData] = useState();
@@ -23,12 +24,27 @@ export default function ShowDetailsScreen({ route, navigation }) {
 
   return (
     showData ? (
-      <View style={styles.detailsContainer}>
-        <Image style={styles.resultImage}
-          source={{ uri: showData.image?.original }}/>
-      <Text style={styles.showTitle}>{showData.name}</Text>
-      <Text style={styles.showSummary}>{showData.summary?.replace('<p>', '').replace('</p>', '').replace('<b>', '').replace('</b>', '')}</Text>
+      <ScrollView style={styles.detailsContainer}>
+        <ImageBackground style={styles.resultImage}
+          source={{ uri: showData.image?.original }}
+          resizeMode="cover">
+      
+        <LinearGradient colors={['transparent', 'rgba(0,0,0,0.9)']} style={styles.gradient}>
+          <Text style={styles.showTitle}>{showData.name}</Text>
+        </LinearGradient>
+      </ImageBackground>
+
+      <View style={styles.detailsSection}>
+      
+      <Text style={styles.showInfo}>
+        Premiered: {showData.premiered}
+      </Text>
+      <Text style={styles.showInfo}>
+        Genres: {showData.genres.join(", ")}
+      </Text>
+      <Text style={styles.showSummary}>{showData.summary?.replace(/<[^>]+>/g, '')}</Text>
       </View>
+      </ScrollView>
     ) : (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#000"/>
@@ -38,26 +54,42 @@ export default function ShowDetailsScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  ShowDetailsScreen: {
-    /* Styles here */
+  detailsContainer: {
+    flex: 1,
+    backgroundColor: "#000"
   },
   resultImage: {
-  width: '100%',
-  height: 600,
-  borderRadius: 8,
-  resizeMode: 'cover',
-  marginBottom: 10
-},
+    width: "100%",
+    height: 600,
+    justifyContent: "flex-end" 
+  },
+  gradient: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'flex-end',
+    padding: 20
+  },
 showTitle: {
-  fontSize: 24,
-  fontWeight: 'bold',
-  marginBottom: 5
-},
+  color: "#fff",
+  fontSize: 50,
+  fontWeight: "bold"
+  },
+detailsSection: {
+  padding: 20
+  },
+showInfo: {
+  color: "#ccc",
+  fontSize: 16,
+  marginBottom: 6
+  },
 showSummary: {
-
-},
+  color: "#eee",
+  fontSize: 16,
+  marginTop: 15,
+  lineHeight: 24
+  },
 loadingContainer: {
   height: '100%',
-  justifyContent: 'center'
+  justifyContent: 'center',
 }
 })

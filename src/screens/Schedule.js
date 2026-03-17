@@ -76,16 +76,19 @@ const styles = StyleSheet.create({
   showTitle: {
     fontWeight: 'bold',
     fontSize: 18,
+    color: '#fff'
   },
   episodeTitle: {
-    fontSize: 16
+    fontSize: 16,
+    color: '#fff'
   },
   showTime: {
     marginBottom: 5,
     color: 'gray',
   },
   showSummary: {
-    fontSize: 14
+    fontSize: 14,
+    color: 'gray'
   },
   resultImage: {
     width: '50%',
