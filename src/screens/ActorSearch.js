@@ -4,7 +4,7 @@ import SearchForm from '../components/SearchForm';
 
 export default function ActorSearchScreen({ navigation }) {
   
-  const [searchQuery, setSearchQuery] = useState('chris');
+  const [searchQuery, setSearchQuery] = useState([]);
 
   const [actor, setActors] = useState([]);
 
@@ -29,7 +29,7 @@ export default function ActorSearchScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <SearchForm setSearchQuery={setSearchQuery}/>
+      <SearchForm style={styles.searchBar} setSearchQuery={setSearchQuery}/>
       {actor && actor.length > 0 ? (<View style={styles.resultsContainer}>
         <FlatList
         numColumns={2}
@@ -77,5 +77,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
     textAlign: 'center',
     fontSize: 14,
-  }
+    color: "#fff"
+  },
 });

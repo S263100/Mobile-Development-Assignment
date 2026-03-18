@@ -34,7 +34,8 @@ export default function SearchForm({ setSearchQuery }) {
     },
     input: {
       flexGrow: 1,
-      color: '#000',
+      color: '#fff',
+      backgroundColor: '#111',
       paddingHorizontal: 8,
       borderWidth: 2,
       borderColor: '#000'

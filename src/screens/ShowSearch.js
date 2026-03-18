@@ -10,7 +10,7 @@ export default function ShowSearchScreen({ navigation }) {
 
   const searchShow = () => {
     console.log("Make a call to the API using the search query: " + searchQuery);
-    fetch(`https://api.tvmaze.com/search/shows?q=0${searchQuery}`)
+    fetch(`https://api.tvmaze.com/search/shows?q=${searchQuery}`)
     .then((response) => response.json())
     .then((json) => {
       console.log(json);

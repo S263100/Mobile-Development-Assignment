@@ -15,7 +15,6 @@ export default function App() {
         <Stack.Screen name="Show Details" component={ShowDetailsScreen} options={{ title: 'Show Details' }} />
         <Stack.Screen name="Actor Details" component={ActorDetailsScreen} options={{ title: 'Actor Details' }} />
       </Stack.Navigator>
-      <StatusBar style="auto" />
     </NavigationContainer>
   );
 }
