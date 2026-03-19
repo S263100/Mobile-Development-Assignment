@@ -13,8 +13,10 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function TabNavigator() {
-    const Tab = createBottomTabNavigator();
-    return (
+   
+  const Tab = createBottomTabNavigator();
+    
+  return (
         <Tab.Navigator
             screenOptions={{
             headerShown: true,
@@ -34,8 +36,10 @@ export default function TabNavigator() {
 }
 
 function HomeStack() {
-    const Stack = createNativeStackNavigator();
-    return (
+    
+  const Stack = createNativeStackNavigator();
+    
+  return (
         <Stack.Navigator screenOptions={{ headerShown: true }}>
         <Stack.Screen name="HomeMain" component={HomeScreen} options={{ title: 'Home' }} />
         <Stack.Screen name="ShowDetails" component={ShowDetailsScreen} options={{ title: 'Show Details' }} />

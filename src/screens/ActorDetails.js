@@ -1,9 +1,14 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React, {useState, useEffect} from "react";
-import { ActivityIndicator, StyleSheet, Text, View, ImageBackground, ScrollView } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View, ImageBackground, ScrollView, Image, Pressable } from 'react-native';
 
 export default function ActorDetailsScreen({ route, navigation }) {
+  
   const [actorData, setActorData] = useState();
+
+  const [castCredits, setCastCredits] = useState([]);
+
+  const [creditsVisible, setCreditsVisible] = useState(false);
 
   const { actorId } = route.params;
   const getActorData = () => {
@@ -18,9 +23,22 @@ export default function ActorDetailsScreen({ route, navigation }) {
     })
   };
 
+  const getCastCredits = async () => {
+    fetch(`https://api.tvmaze.com/people/${actorId}/castcredits?embed=show`)
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json);
+      setCastCredits(json);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }
+
   useEffect(() => {
     getActorData();
-  }, [actorId])
+    getCastCredits();
+  }, [actorId]);
 
   return (
     actorData ? (
@@ -32,12 +50,28 @@ export default function ActorDetailsScreen({ route, navigation }) {
       <Text style={styles.actorName}>{actorData.name}</Text>
       </LinearGradient>
       </ImageBackground>
-
+      
       <View style={styles.detailsSection}>
-
-
-      <Text style={styles.actorGender}>Gender: {actorData.gender}</Text>
+      <Text style={styles.actorInfo}>Born: {actorData.birthday || 'Unknown'}</Text>
+      <Text style={styles.actorInfo}>Died: {actorData.deathday || 'N/A'}</Text>
+      <Text style={styles.actorInfo}>Gender: {actorData.gender || 'N/A'}</Text>
+      <Text style={styles.actorInfo}>Country: {actorData.country?.name || 'N/A'}</Text>
       </View>
+
+      <Text style={styles.sectionTitle}>Shows</Text>
+      {castCredits && castCredits.length > 0 && (
+       <View style={styles.castList}>
+        {castCredits.map((credit, index) => (
+          <Pressable key={credit.id || index} style={styles.castBox} onPress={() => navigation.navigate('Show Details', { showId: credit._embedded.show.id })}>
+            <Image style={styles.castImage} source={{ uri: credit._embedded.show.image?.medium || 'https://placehold.net/avatar.png' }}/>
+            <View style={styles.castInfo}>
+              <Text style={styles.actorName}>{credit._embedded.show.name}</Text>
+              <Text style={styles.characterName}>as {credit.character?.name || 'Role Not Availiable'}</Text>
+          </View>
+          </Pressable>
+        ))}
+      </View>
+      )}
       </ScrollView>
     ) : (
       <View style={styles.loadingContainer}>
@@ -57,26 +91,59 @@ const styles = StyleSheet.create({
   borderRadius: 8,
   resizeMode: 'cover',
   marginBottom: 10
-},
-gradient: {
+  },
+  gradient: {
     width: '100%',
     height: '100%',
     justifyContent: 'flex-end',
     padding: 20
   },
-detailsSection: {
-
-},
-actorName: {
+  actorName: {
   color: "#fff",
   fontSize: 50,
   fontWeight: "bold"
-},
-showSummary: {
-
-},
-loadingContainer: {
-  height: '100%',
-  justifyContent: 'center'
-}
+  },
+  actorInfo: {
+  color: "#fff"
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#ddd',
+    marginBottom: 10
+  },
+  castList: {
+    marginBottom: 20
+  },
+  castBox: {
+    flexDirection: 'row',
+    marginBottom: 10,
+    backgroundColor: '#111',
+    borderRadius: 12,
+    alignItems: "center",
+    padding: 10
+  },
+  castImage: {
+    width: 60,
+    height: 80,
+    borderRadius: 8,
+    marginRight: 10
+  },
+  castInfo: {
+    flexShrink: 1
+  },
+  actorName: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
+  characterName: {
+    color: '#aaa',
+    fontSize: 14,
+    marginTop: 4
+  },
+  loadingContainer: {
+    height: '100%',
+    justifyContent: 'center'
+  }
 })

@@ -7,9 +7,11 @@ export default function ShowSearchScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState([]);
 
   const [show, setShows] = useState();
-
+  
   const searchShow = () => {
+    
     console.log("Make a call to the API using the search query: " + searchQuery);
+    
     fetch(`https://api.tvmaze.com/search/shows?q=${searchQuery}`)
     .then((response) => response.json())
     .then((json) => {
@@ -27,20 +29,17 @@ export default function ShowSearchScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <SearchForm setSearchQuery={setSearchQuery}/>
+      <SearchForm setSearchQuery={setSearchQuery} style={styles.searchBar}/>
+      
       {show && show.length > 0 ? (<View style={styles.resultsContainer}>
         <FlatList
         numColumns={2}
         style={{margin: 10}}
         data={show}
         renderItem={({item}) => (
-          <Pressable style={styles.resultsImageTouchable} onPress={() => navigation.navigate('Show Details', { showId: item.show.id })
-          }
-          >
-          <Image
-          style={styles.resultImage}
-          source={{ uri: item.show.image?.medium }}
-          />
+          
+          <Pressable style={styles.resultsImageTouchable} onPress={() => navigation.navigate('Show Details', { showId: item.show.id })}>
+            <Image style={styles.resultImage} source={{ uri: item.show.image?.medium }}/>
           </Pressable>
         )}
         />

@@ -8,7 +8,8 @@ export default function ScheduleScreen({ navigation }) {
   const [schedule, setSchedules] = useState([]);
 
   const showSchedule = () => {
-    console.log("Make a call to the API using the search query: " + searchQuery);
+    //Log results.
+    console.log("Make a call to the API using the search query:");
     fetch(`https://api.tvmaze.com/schedule`)
     .then((response) => response.json())
     .then((json) => {

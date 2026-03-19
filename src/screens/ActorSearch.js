@@ -25,16 +25,15 @@ export default function ActorSearchScreen({ navigation }) {
     searchActor();
   }, [searchQuery]);
 
-
-
   return (
     <View style={styles.container}>
       <SearchForm style={styles.searchBar} setSearchQuery={setSearchQuery}/>
-      {actor && actor.length > 0 ? (<View style={styles.resultsContainer}>
+      {actor && actor.length > 0 ? (
         <FlatList
         numColumns={2}
         style={{margin: 10}}
         data={actor}
+        contentContainerStyle={styles.contentList}
         renderItem={({item}) => (
         <Pressable style={styles.resultsImageTouchable} onPress={() => navigation.navigate('Actor Details', { actorId: item.person.id })
           }
@@ -47,7 +46,7 @@ export default function ActorSearchScreen({ navigation }) {
           </Pressable>
         )}
         />
-        </View>) : (<View style={styles.loadingContainer}> 
+        ) : (<View style={styles.loadingContainer}> 
         <ActivityIndicator size="large" color="#000"/>
         </View>)}
     </View>
@@ -57,7 +56,16 @@ export default function ActorSearchScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "flex-start",
+    alignItems: "stretch"
+  },
+  searchBar: {
+    margin: 10
+  },
+  contentList: {
+    paddingHorizontal: 10,
+    paddingBottom: 20,
+    alignItems: "stretch"
   },
   loadingContainer: {
     height: '100%',

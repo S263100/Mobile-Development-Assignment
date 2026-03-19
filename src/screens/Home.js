@@ -7,7 +7,7 @@ export default function HomeScreen({ navigation }) {
   const [shows, setShows] = useState([]);
 
   const fetchShow = async () => {
-    console.log("Make a call ot he API using the search query: ");
+    console.log("Make a call to he API using the search query: ");
     fetch(`https://api.tvmaze.com/search/shows?q=0`)
     .then((response) => response.json())
     .then((json) => {
@@ -35,10 +35,8 @@ export default function HomeScreen({ navigation }) {
           horizontal={true}
           data={shows}
           renderItem={({ item }) => (
-            <Pressable style={styles.resultsImageTouchable} onPress={() => navigation.navigate('Show Details', { showId: item.show.id })
-          }>
-            <Image style={styles.resultImage} source={{ uri: item.show.image?.medium }}
-            />
+          <Pressable style={styles.resultsImageTouchable} onPress={() => navigation.navigate('Show Details', { showId: item.show.id })}>
+            <Image style={styles.resultImage} source={{ uri: item.show.image?.medium }}/>
           </Pressable>
           )}></FlatList>
         </View>
@@ -50,8 +48,6 @@ export default function HomeScreen({ navigation }) {
 </SafeAreaView>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   HomeScreen: {
