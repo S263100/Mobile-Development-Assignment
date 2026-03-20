@@ -78,6 +78,18 @@ export default function ShowDetailsScreen({ route, navigation }) {
         Genres: {showData.genres.join(", ")}
       </Text>
 
+      <Text style={styles.showInfo}>
+        Language: {showData.language}
+      </Text>
+
+      <Text style={styles.showInfo}>
+        Rating: {showData.rating?.average}
+      </Text>
+
+      <Text style={styles.showInfo}>
+        Status: {showData.status}
+      </Text>
+
       <Text style={styles.showSummary}>{showData.summary?.replace(/<[^>]+>/g, '')}</Text>
       
       <TouchableOpacity style={styles.itemBox} onPress={() => setCastVisible(!castVisible)}>

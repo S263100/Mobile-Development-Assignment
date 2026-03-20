@@ -31,11 +31,12 @@ export default function ShowSearchScreen({ navigation }) {
     <View style={styles.container}>
       <SearchForm setSearchQuery={setSearchQuery} style={styles.searchBar}/>
       
-      {show && show.length > 0 ? (<View style={styles.resultsContainer}>
+      {show && show.length > 0 ? (
         <FlatList
         numColumns={2}
         style={{margin: 10}}
         data={show}
+        contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20, alignItems: 'stretch', flexGrow: 1 }}
         renderItem={({item}) => (
           
           <Pressable style={styles.resultsImageTouchable} onPress={() => navigation.navigate('Show Details', { showId: item.show.id })}>
@@ -43,7 +44,7 @@ export default function ShowSearchScreen({ navigation }) {
           </Pressable>
         )}
         />
-      </View>) : (<View style={styles.loadingContainer}>
+      ) : (<View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#fff"/>
       </View>)}
     </View>

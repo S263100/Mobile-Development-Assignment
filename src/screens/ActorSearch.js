@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, Image, Pressable, FlatList } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, Image, Pressable, FlatList} from 'react-native';
+
 import SearchForm from '../components/SearchForm';
 
 export default function ActorSearchScreen({ navigation }) {
@@ -27,21 +28,16 @@ export default function ActorSearchScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <SearchForm style={styles.searchBar} setSearchQuery={setSearchQuery}/>
+      <SearchForm setSearchQuery={setSearchQuery}/>
       {actor && actor.length > 0 ? (
         <FlatList
         numColumns={2}
-        style={{margin: 10}}
+        style={{ flex: 1, marginHorizontal: 10 }}
         data={actor}
-        contentContainerStyle={styles.contentList}
+        contentContainerStyle={{ paddingBottom: 20, justifyContent: 'flex-start' }}
         renderItem={({item}) => (
-        <Pressable style={styles.resultsImageTouchable} onPress={() => navigation.navigate('Actor Details', { actorId: item.person.id })
-          }
-          >
-          <Image
-          style={styles.resultImage}
-          source={{ uri: item.person.image?.medium || 'https://placehold.net/avatar.png'}}
-          />
+        <Pressable style={styles.resultsImageTouchable} onPress={() => navigation.navigate('Actor Details', { actorId: item.person.id })}>
+          <Image style={styles.resultImage} source={{ uri: item.person.image?.medium || 'https://placehold.net/avatar.png'}}/>
           <Text style={styles.actorName}>{item.person.name}</Text>
           </Pressable>
         )}
@@ -56,20 +52,20 @@ export default function ActorSearchScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "stretch"
-  },
-  searchBar: {
-    margin: 10
+    justifyContent: 'center',
+    height: '100%'
   },
   contentList: {
     paddingHorizontal: 10,
     paddingBottom: 20,
-    alignItems: "stretch"
+    alignItems: 'stretch',
+    flexGrow: 1,
+    justifyContent: 'flex-start'
   },
   loadingContainer: {
     height: '100%',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   resultImage: {
     width: '100%',
@@ -79,12 +75,14 @@ const styles = StyleSheet.create({
   resultsImageTouchable: {
     flex: 1,
     margin: 10,
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '100%',
+    height: 150
   },
   actorName: {
     marginTop: 5,
     textAlign: 'center',
     fontSize: 14,
-    color: "#fff"
+    color: "#fff",
   },
 });

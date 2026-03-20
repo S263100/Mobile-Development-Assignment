@@ -28,9 +28,9 @@ export default function TabNavigator() {
         }}
     >
       <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarIcon: ({color}) => <AntDesign name="home" size={24} color="white" /> }} />
-      <Tab.Screen name="Schedule" component={ScheduleScreen} options={{ tabBarIcon: ({color}) => <FontAwesome5 name="list-alt" size={24} color="white" />}} />
-      <Tab.Screen name="Actor Search" component={ActorSearchScreen} options={{ tabBarIcon: ({color}) => <Ionicons name="person" size={24} color="white" />}}/>
       <Tab.Screen name="Show Search" component={ShowSearchScreen} options={{ tabBarIcon: ({color}) => <MaterialIcons name="live-tv" size={24} color="white" /> }}/>
+      <Tab.Screen name="Actor Search" component={ActorSearchScreen} options={{ tabBarIcon: ({color}) => <Ionicons name="person" size={24} color="white" />}}/>
+      <Tab.Screen name="Schedule" component={ScheduleScreen} options={{ tabBarIcon: ({color}) => <FontAwesome5 name="list-alt" size={24} color="white" />}} />
     </Tab.Navigator>
   );
 }

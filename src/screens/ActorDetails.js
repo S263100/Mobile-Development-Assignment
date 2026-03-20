@@ -47,31 +47,45 @@ export default function ActorDetailsScreen({ route, navigation }) {
           source={{ uri: actorData.image?.original || 'https://placehold.net/400x400.png'}} resizeMode="cover">
       
       <LinearGradient colors={['transparent', 'rgba(0,0,0,0.9)']} style={styles.gradient}>
-      <Text style={styles.actorName}>{actorData.name}</Text>
+        <Text style={styles.actorName}>{actorData.name}</Text>
       </LinearGradient>
-      </ImageBackground>
+        </ImageBackground>
       
-      <View style={styles.detailsSection}>
-      <Text style={styles.actorInfo}>Born: {actorData.birthday || 'Unknown'}</Text>
-      <Text style={styles.actorInfo}>Died: {actorData.deathday || 'N/A'}</Text>
-      <Text style={styles.actorInfo}>Gender: {actorData.gender || 'N/A'}</Text>
-      <Text style={styles.actorInfo}>Country: {actorData.country?.name || 'N/A'}</Text>
-      </View>
+    <View style={styles.detailsSection}>
+      
+      <Text style={styles.actorInfo}>
+        Born: {actorData.birthday || 'Unknown'}
+      </Text>
+      
+      <Text style={styles.actorInfo}>
+        Died: {actorData.deathday || 'N/A'}
+      </Text>
+      
+      <Text style={styles.actorInfo}>
+        Gender: {actorData.gender || 'N/A'}
+      </Text>
+      
+      <Text style={styles.actorInfo}>
+        Country: {actorData.country?.name || 'N/A'}
+        </Text>
+    
+    </View>
 
-      <Text style={styles.sectionTitle}>Shows</Text>
+      <View style={styles.creditsBox}>
+      <Text style={styles.sectionTitle}>Featured In:</Text>
       {castCredits && castCredits.length > 0 && (
        <View style={styles.castList}>
         {castCredits.map((credit, index) => (
           <Pressable key={credit.id || index} style={styles.castBox} onPress={() => navigation.navigate('Show Details', { showId: credit._embedded.show.id })}>
             <Image style={styles.castImage} source={{ uri: credit._embedded.show.image?.medium || 'https://placehold.net/avatar.png' }}/>
-            <View style={styles.castInfo}>
-              <Text style={styles.actorName}>{credit._embedded.show.name}</Text>
-              <Text style={styles.characterName}>as {credit.character?.name || 'Role Not Availiable'}</Text>
+          <View style={styles.castInfo}>
+            <Text style={styles.actorCastName}>{credit._embedded.show.name}</Text>
           </View>
           </Pressable>
         ))}
-      </View>
+        </View>
       )}
+      </View>
       </ScrollView>
     ) : (
       <View style={styles.loadingContainer}>
@@ -86,11 +100,11 @@ const styles = StyleSheet.create({
     /* Styles here */
   },
   resultImage: {
-  width: '100%',
-  height: 600,
-  borderRadius: 8,
-  resizeMode: 'cover',
-  marginBottom: 10
+    width: '100%',
+    height: 600,
+    borderRadius: 20,
+    resizeMode: 'cover',
+    marginBottom: 10,
   },
   gradient: {
     width: '100%',
@@ -99,18 +113,30 @@ const styles = StyleSheet.create({
     padding: 20
   },
   actorName: {
-  color: "#fff",
-  fontSize: 50,
-  fontWeight: "bold"
+    color: "#fff",
+    fontSize: 40,
+    fontWeight: "bold",
   },
   actorInfo: {
-  color: "#fff"
+    color: "#aaa",
+    fontSize: 16,
+    marginBottom: 6,
+    paddingLeft: 7.5
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 35,
     fontWeight: 'bold',
     color: '#ddd',
     marginBottom: 10
+  },
+  creditsBox: {
+    justifyContent: "center",
+    backgroundColor: '#122',
+    padding: 20,
+    borderRadius: 45,
+    marginVertical: 10,
+    marginHorizontal: 20,
+    marginTop: 20
   },
   castList: {
     marginBottom: 20
@@ -132,7 +158,7 @@ const styles = StyleSheet.create({
   castInfo: {
     flexShrink: 1
   },
-  actorName: {
+  actorCastName: {
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold'
