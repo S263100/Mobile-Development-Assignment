@@ -8,9 +8,8 @@ export default function ActorDetailsScreen({ route, navigation }) {
 
   const [castCredits, setCastCredits] = useState([]);
 
-  const [creditsVisible, setCreditsVisible] = useState(false);
-
   const { actorId } = route.params;
+  
   const getActorData = () => {
     fetch(`https://api.tvmaze.com/people/${actorId}`)
     .then((response) => response.json())
@@ -24,7 +23,7 @@ export default function ActorDetailsScreen({ route, navigation }) {
   };
 
   const getCastCredits = async () => {
-    fetch(`https://api.tvmaze.com/people/${actorId}/castcredits?embed=show`)
+    fetch(`https://api.tvmaze.com/people/${actorId}/castcredits?embed[]=show&embed[]=character`)
     .then((response) => response.json())
     .then((json) => {
       console.log(json);
@@ -42,33 +41,28 @@ export default function ActorDetailsScreen({ route, navigation }) {
 
   return (
     actorData ? (
-      <ScrollView style={styles.detailsContainer}>
+      <ScrollView style={styles.container}>
         <ImageBackground style={styles.resultImage}
-          source={{ uri: actorData.image?.original || 'https://placehold.net/400x400.png'}} resizeMode="cover">
+          source={{ uri: actorData.image?.original || 'https://dummyimage.com/400x800/fff/000.png&text=Image+Not+Found'}} resizeMode="cover">
       
-      <LinearGradient colors={['transparent', 'rgba(0,0,0,0.9)']} style={styles.gradient}>
+      <LinearGradient colors={['transparent', 'rgba(16, 11, 18, 0.92)']} style={styles.gradient}>
         <Text style={styles.actorName}>{actorData.name}</Text>
       </LinearGradient>
         </ImageBackground>
       
-    <View style={styles.detailsSection}>
-      
+    <View>      
       <Text style={styles.actorInfo}>
         Born: {actorData.birthday || 'Unknown'}
-      </Text>
-      
+      </Text>     
       <Text style={styles.actorInfo}>
         Died: {actorData.deathday || 'N/A'}
-      </Text>
-      
+      </Text>      
       <Text style={styles.actorInfo}>
         Gender: {actorData.gender || 'N/A'}
       </Text>
-      
       <Text style={styles.actorInfo}>
         Country: {actorData.country?.name || 'N/A'}
-        </Text>
-    
+        </Text>   
     </View>
 
       <View style={styles.creditsBox}>
@@ -77,9 +71,12 @@ export default function ActorDetailsScreen({ route, navigation }) {
        <View style={styles.castList}>
         {castCredits.map((credit, index) => (
           <Pressable key={credit.id || index} style={styles.castBox} onPress={() => navigation.navigate('Show Details', { showId: credit._embedded.show.id })}>
-            <Image style={styles.castImage} source={{ uri: credit._embedded.show.image?.medium || 'https://placehold.net/avatar.png' }}/>
+            
+            <Image style={styles.castImage} source={{ uri: credit._embedded.show.image?.medium || 'https://dummyimage.com/400x800/fff/000.png&text=Image+Not+Found' }}/>
+          
           <View style={styles.castInfo}>
             <Text style={styles.actorCastName}>{credit._embedded.show.name}</Text>
+            <Text style={styles.showCast}>{credit._embedded.character?.name}</Text>
           </View>
           </Pressable>
         ))}
@@ -96,8 +93,8 @@ export default function ActorDetailsScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  ShowDetailsScreen: {
-    /* Styles here */
+  container: {
+    backgroundColor: '#101'
   },
   resultImage: {
     width: '100%',
@@ -114,20 +111,15 @@ const styles = StyleSheet.create({
   },
   actorName: {
     color: "#fff",
-    fontSize: 40,
+    fontSize: 50,
     fontWeight: "bold",
+    fontStyle: 'italic'
   },
   actorInfo: {
     color: "#aaa",
     fontSize: 16,
     marginBottom: 6,
     paddingLeft: 7.5
-  },
-  sectionTitle: {
-    fontSize: 35,
-    fontWeight: 'bold',
-    color: '#ddd',
-    marginBottom: 10
   },
   creditsBox: {
     justifyContent: "center",
@@ -137,6 +129,12 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginHorizontal: 20,
     marginTop: 20
+  },
+  sectionTitle: {
+    fontSize: 35,
+    fontWeight: 'bold',
+    color: '#ddd',
+    marginBottom: 10
   },
   castList: {
     marginBottom: 20
@@ -163,13 +161,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold'
   },
-  characterName: {
-    color: '#aaa',
-    fontSize: 14,
-    marginTop: 4
+  showCast: {
+    color: '#aaa'
   },
   loadingContainer: {
     height: '100%',
     justifyContent: 'center'
-  }
+  },
 })

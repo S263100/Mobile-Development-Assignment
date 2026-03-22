@@ -1,6 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, Image, Pressable, FlatList} from 'react-native';
-
 import SearchForm from '../components/SearchForm';
 
 export default function ActorSearchScreen({ navigation }) {
@@ -32,18 +31,18 @@ export default function ActorSearchScreen({ navigation }) {
       {actor && actor.length > 0 ? (
         <FlatList
         numColumns={2}
-        style={{ flex: 1, marginHorizontal: 10 }}
+        style={{ flex: 1, margin: 10}}
         data={actor}
-        contentContainerStyle={{ paddingBottom: 20, justifyContent: 'flex-start' }}
+        showsVerticalScrollIndicator={false}
         renderItem={({item}) => (
-        <Pressable style={styles.resultsImageTouchable} onPress={() => navigation.navigate('Actor Details', { actorId: item.person.id })}>
-          <Image style={styles.resultImage} source={{ uri: item.person.image?.medium || 'https://placehold.net/avatar.png'}}/>
+        <Pressable onPress={() => navigation.navigate('Actor Details', { actorId: item.person.id })}>
+          <Image style={styles.resultImage} source={{ uri: item.person.image?.original || 'https://dummyimage.com/400x800/fff/000.png&text=Image+Not+Found'}}/>
           <Text style={styles.actorName}>{item.person.name}</Text>
-          </Pressable>
+        </Pressable>
         )}
         />
         ) : (<View style={styles.loadingContainer}> 
-        <ActivityIndicator size="large" color="#000"/>
+        <Text style={styles.placeholderText}>Search for your favourite actors here!</Text>
         </View>)}
     </View>
   );
@@ -51,16 +50,8 @@ export default function ActorSearchScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    height: '100%'
-  },
-  contentList: {
-    paddingHorizontal: 10,
-    paddingBottom: 20,
-    alignItems: 'stretch',
-    flexGrow: 1,
-    justifyContent: 'flex-start'
+    height: '100%',
+    backgroundColor: '#101'
   },
   loadingContainer: {
     height: '100%',
@@ -68,21 +59,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   resultImage: {
-    width: '100%',
-    height: 150,
-    resizeMode: 'center'
-  },
-  resultsImageTouchable: {
     flex: 1,
-    margin: 10,
-    alignItems: 'center',
-    width: '100%',
-    height: 150
+    height: 300,
+    width: 175,
+    borderRadius: 20,
+    borderWidth: 1.5,
+    borderColor: '#333',
+    margin: 15
   },
   actorName: {
-    marginTop: 5,
-    textAlign: 'center',
+    marginTop: 2.5,
+    marginBottom: 5,
+    alignSelf: 'center',
     fontSize: 14,
     color: "#fff",
+    fontWeight: 'bold',
   },
+  placeholderText: {
+    color: '#666',
+    alignSelf: 'center',
+    paddingBottom: 100
+  }
 });

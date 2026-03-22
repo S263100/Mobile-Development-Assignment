@@ -20,6 +20,5 @@ export default function HomeNavigator() {
 
 const styles = StyleSheet.create({
   HomeNavigator: {
-    /* Styles here */
   },
 })

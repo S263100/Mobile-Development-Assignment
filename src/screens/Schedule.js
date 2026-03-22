@@ -8,9 +8,8 @@ export default function ScheduleScreen({ navigation }) {
   const [schedule, setSchedules] = useState([]);
 
   const showSchedule = () => {
-    //Log results.
     console.log("Make a call to the API using the search query:");
-    fetch(`https://api.tvmaze.com/schedule`)
+    fetch(`https://api.tvmaze.com/schedule?country=GB`)
     .then((response) => response.json())
     .then((json) => {
       console.log(json);
@@ -30,26 +29,28 @@ export default function ScheduleScreen({ navigation }) {
       {schedule && schedule.length > 0 ? (<View style={styles.resultsContainer}>
         <FlatList
         data={schedule}
+        showsVerticalScrollIndicator={false}
         renderItem={({item}) => (
           <View style={styles.scheduleResults}>
-          
-            <Text style={styles.showTitle}>{item.show.name}</Text>
-            <Text style={styles.episodeTitle}>{item.name}</Text>
-            <Text style={styles.showTime}>Airs at: {item.airtime}</Text>
-            <Text style={styles.showSummary}>{item.show.summary?.replace('<p>', '').replace('</p>', '').replace('<b>', '').replace('</b>', '')}</Text>
-          <Pressable style={styles.resultImageTouchable} onPress={() => navigation.navigate('Show Details', { showId: item.show.id })
-            }
-          >
-          <Image
-          style={styles.resultImage}
-          source={{ uri: item.show.image?.medium }}
-          />
+            <Text style={styles.showTitle}>
+              {item.show.name}
+            </Text>
+            <Text style={styles.episodeTitle}>
+              "{item.name}"
+            </Text>
+            <Text style={styles.showTime}>
+              Airs at: {item.airtime}
+            </Text>
+          <Pressable onPress={() => navigation.navigate('Show Details', { showId: item.show.id })}>
+          <Image style={styles.resultImage} source={{ uri: item.show.image?.medium || 'https://dummyimage.com/400x800/fff/000.png&text=Image+Not+Found'}}/>
           </Pressable>
+          
+          <Text style={styles.showSummary}>{item.show.summary?.replace(/<[^>]+>/g, '')}</Text>
           </View>
         )}
       /> 
       </View>) : (<View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#000"/>
+        <ActivityIndicator size="large" color="#fff"/>
       </View>)}
     </View>
   );
@@ -60,10 +61,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  loadingContainer: {
-    height: '100%',
-    justifyContent: 'center'
+    backgroundColor: '#101'
   },
   resultsContainer: {
     flex: 1,
@@ -76,8 +74,9 @@ const styles = StyleSheet.create({
   },
   showTitle: {
     fontWeight: 'bold',
-    fontSize: 18,
-    color: '#fff'
+    fontSize: 25,
+    color: '#fff',
+    fontStyle: 'italic'
   },
   episodeTitle: {
     fontSize: 16,
@@ -87,13 +86,22 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     color: 'gray',
   },
+  resultImage: {
+    width: 250,
+    height: 350,
+    alignSelf: 'center',
+    marginTop: 20,
+    borderRadius: 20,
+    borderWidth: 1.5,
+    borderColor: '#333'
+  },
   showSummary: {
     fontSize: 14,
-    color: 'gray'
+    color: 'gray',
+    marginTop: 15
   },
-  resultImage: {
-    width: '50%',
-    height: 150,
-    borderRadius: 8
-  }
+    loadingContainer: {
+    height: '100%',
+    justifyContent: 'center'
+  },
 });

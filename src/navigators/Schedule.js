@@ -18,6 +18,5 @@ export default function ScheduleSearchNavigator() {
 
 const styles = StyleSheet.create({
   ScheduleNavigator: {
-    /* Styles here */
   },
 })

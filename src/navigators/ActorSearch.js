@@ -18,6 +18,5 @@ export default function ActorSearchNavigator() {
 
 const styles = StyleSheet.create({
   ActorSearchNavigator: {
-    /* Styles here */
   },
 })

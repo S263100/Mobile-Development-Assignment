@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "TV-Show-App",
+    "name": "Tv-Flix",
     "slug": "TV-Show-App",
     "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "orientation": "default",
+    "icon": "./assets/tv-app.png",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/tv-app.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

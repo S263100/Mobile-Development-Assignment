@@ -12,8 +12,10 @@ export default function ShowDetailsScreen({ route, navigation }) {
   
   const [episodesVisible, setEpisodesVisible] = useState(false);
   const [castVisible, setCastVisible] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(10);
 
   const { showId } = route.params;
+  
   const getShowData = () => {
     fetch(`https://api.tvmaze.com/shows/${showId}`)
     .then((response) => response.json())
@@ -60,41 +62,41 @@ export default function ShowDetailsScreen({ route, navigation }) {
     showData ? (
       <ScrollView style={styles.detailsContainer}>
         <ImageBackground style={styles.resultImage}
-          source={{ uri: showData.image?.original }}
+          source={{ uri: showData.image?.original || 'https://dummyimage.com/400x800/fff/000.png&text=Image+Not+Found'}}
           resizeMode="cover">
       
-        <LinearGradient colors={['transparent', 'rgba(0,0,0,0.9)']} style={styles.gradient}>
+        <LinearGradient colors={['transparent', 'rgba(16, 11, 18, 0.92)']} style={styles.gradient}>
           <Text style={styles.showTitle}>{showData.name}</Text>
         </LinearGradient>
       </ImageBackground>
 
       <View style={styles.detailsSection}>
-      
       <Text style={styles.showInfo}>
         Premiered: {showData.premiered}
       </Text>
-
       <Text style={styles.showInfo}>
         Genres: {showData.genres.join(", ")}
       </Text>
-
       <Text style={styles.showInfo}>
         Language: {showData.language}
       </Text>
-
       <Text style={styles.showInfo}>
         Rating: {showData.rating?.average}
       </Text>
-
       <Text style={styles.showInfo}>
         Status: {showData.status}
       </Text>
-
-      <Text style={styles.showSummary}>{showData.summary?.replace(/<[^>]+>/g, '')}</Text>
+      <Text style={styles.showSummary}>
+        {showData.summary?.replace(/<[^>]+>/g, '')}
+      </Text>
       
       <TouchableOpacity style={styles.itemBox} onPress={() => setCastVisible(!castVisible)}>
-      <Text style={styles.boxTitle}>Cast</Text>  
-      <Text style={styles.toggleIcon}>{castVisible ? '-' : '+'}</Text> 
+      <Text style={styles.boxTitle}>
+        Cast
+      </Text>
+      <Text style={styles.toggleIcon}>
+        {castVisible ? '-' : '+'}
+      </Text> 
       </TouchableOpacity>
       
       {castVisible && (
@@ -102,12 +104,14 @@ export default function ShowDetailsScreen({ route, navigation }) {
       {castData.map((c, index) => ( 
         <View key={index} style={{ marginBottom: 10 }}>
         <Pressable style={styles.resultImageTouchable} onPress={() => navigation.navigate('Actor Details', {actorId: c.person.id})}>
-      <Text style={styles.showCast}>{c.person.name} as {c.character.name}</Text>
-      <Image source={{ uri: c.person.image?.medium || 'https://placehold.net/avatar.png'}} style={styles.castImage}/>
-      </Pressable>
-      </View>
+          <Text style={styles.showCast}>
+            {c.person.name} as {c.character.name}
+          </Text>
+          <Image source={{ uri: c.person.image?.medium || 'https://dummyimage.com/400x800/fff/000.png&text=Image+Not+Found'}} style={styles.castImage}/>
+        </Pressable>
+        </View>
           ))}
-      </View>
+        </View>
       )}
       
       <TouchableOpacity style={styles.itemBox} onPress={() => setEpisodesVisible(!episodesVisible)}>
@@ -117,17 +121,27 @@ export default function ShowDetailsScreen({ route, navigation }) {
 
       {episodesVisible && (
         <View style={styles.itemList}>
-      {episodeData.map(episodes => (
+      {episodeData.slice(0, visibleCount).map(episodes => (
         <View key={episodes.id} style={styles.episodesContainer}>
           <Text style={styles.episodesName}>
             S{episodes.season} E{episodes.number}: {episodes.name}
           </Text>
+
           <Text style={styles.airdate}>{episodes.airdate}</Text>
-          <Image source={{ uri: episodes.image?.medium || 'https://placehold.net/400x400.png'}} style={styles.episodeImage}/>
-          <Text style={styles.episodeSummary}>{episodes.summary?.replace(/<[^>]+>/g, '')}
+
+            <Image style={styles.episodeImage} source={{ uri: episodes.image?.medium || 'https://dummyimage.com/400x800/fff/000.png&text=Image+Not+Found'}}/>
+          
+          <Text style={styles.episodeSummary}>
+            {episodes.summary?.replace(/<[^>]+>/g, '') || <Text>Description not availiable.</Text>}
           </Text>
         </View>
       ))}
+
+      {episodeData.length > 10 && (
+        <TouchableOpacity onPress={() => setVisibleCount(prev => prev + 10)}>
+            <Text style={styles.loadMoreButton}>Load More</Text>
+        </TouchableOpacity>
+      )}
       </View>
     )}
     </View>
@@ -143,7 +157,7 @@ export default function ShowDetailsScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   detailsContainer: {
     flex: 1,
-    backgroundColor: "#000"
+    backgroundColor: "#101"
   },
   resultImage: {
     width: "100%",
@@ -159,7 +173,8 @@ const styles = StyleSheet.create({
   showTitle: {
     color: "#fff",
     fontSize: 50,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    fontStyle: 'italic'
   },
   detailsSection: {
     padding: 20
@@ -181,10 +196,12 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   castImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 10
+    width: 100,
+    height: 100,
+    borderRadius: 10,
+    marginRight: 10,
+    borderColor: '#333',
+    borderWidth: 1.5
   },
   itemBox: {
     flexDirection: 'row',
@@ -209,7 +226,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10
   },
   episodesContainer: {
-    marginBottom: 10
+    marginBottom: 10,
   },
   episodesName: {
     color: '#fff',
@@ -228,10 +245,17 @@ const styles = StyleSheet.create({
     width: 100,
     height: 60,
     marginRight: 10,
-    borderRadius: 8
+    borderRadius: 8,
+    borderColor: '#333',
+    borderWidth: 1.5
   },
   loadingContainer: {
     height: '100%',
     justifyContent: 'center',
   },
+  loadMoreButton: {
+    color: "#fff",
+    textAlign: 'center',
+    marginVertical: 10
+  }
 })

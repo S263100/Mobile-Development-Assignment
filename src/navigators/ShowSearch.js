@@ -20,6 +20,5 @@ export default function ShowSearchNavigator() {
 
 const styles = StyleSheet.create({
   ShowSearchNavigator: {
-    /* Styles here */
   },
 })

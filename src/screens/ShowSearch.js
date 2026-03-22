@@ -9,9 +9,7 @@ export default function ShowSearchScreen({ navigation }) {
   const [show, setShows] = useState();
   
   const searchShow = () => {
-    
     console.log("Make a call to the API using the search query: " + searchQuery);
-    
     fetch(`https://api.tvmaze.com/search/shows?q=${searchQuery}`)
     .then((response) => response.json())
     .then((json) => {
@@ -29,23 +27,22 @@ export default function ShowSearchScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <SearchForm setSearchQuery={setSearchQuery} style={styles.searchBar}/>
-      
+      <SearchForm setSearchQuery={setSearchQuery}/>      
       {show && show.length > 0 ? (
         <FlatList
         numColumns={2}
         style={{margin: 10}}
         data={show}
-        contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20, alignItems: 'stretch', flexGrow: 1 }}
-        renderItem={({item}) => (
-          
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: 10}}
+        renderItem={({item}) => (          
           <Pressable style={styles.resultsImageTouchable} onPress={() => navigation.navigate('Show Details', { showId: item.show.id })}>
-            <Image style={styles.resultImage} source={{ uri: item.show.image?.medium }}/>
+            <Image style={styles.resultImage} source={{ uri: item.show.image?.original || 'https://dummyimage.com/400x800/fff/000.png&text=Image+Not+Found'}}/>
           </Pressable>
         )}
         />
       ) : (<View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#fff"/>
+        <Text style={styles.placeholderText}>Search your favourite shows here!</Text>
       </View>)}
     </View>
   );
@@ -53,20 +50,26 @@ export default function ShowSearchScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
+    height: '100%',
+    backgroundColor: '#101'
   },
   loadingContainer: {
     height: '100%',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   resultImage: {
     flex: 1,
-    height: 300
+    height: 300,
+    width: 175,
+    borderRadius: 20,
+    borderWidth: 1.5,
+    borderColor: '#333',
+    margin: 10
   },
-  resultsImageTouchable: {
-    flex: 1,
-    margin: 10,
-    height: 200
+  placeholderText: {
+    color: '#666',
+    alignSelf: 'center',
+    paddingBottom: 100
   }
 });

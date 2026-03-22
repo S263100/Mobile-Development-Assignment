@@ -1,22 +1,23 @@
 import React from 'react';
-import { StatusBar, StyleSheet, View, Text } from 'expo-status-bar';
-import { NavigationContainer, DarkTheme } from '@react-navigation/native';
+import { StatusBar } from 'react-native';
+import { DarkTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabNavigator from './src/navigators/TabNavigator';
 import ShowDetailsScreen from './src/screens/ShowDetails';
 import ActorDetailsScreen from './src/screens/ActorDetails';
 
 export default function App() {
-  const Stack = createNativeStackNavigator();
+  
+  const stack = createNativeStackNavigator();
+  
   return (
     <NavigationContainer theme={DarkTheme}>
-      <Stack.Navigator screenOptions={{ headerShown: true }}>
-        <Stack.Screen name="Back" component={TabNavigator} options={{ headerShown: false }} />
-        <Stack.Screen name="Show Details" component={ShowDetailsScreen} options={{ title: 'Show Details' }} />
-        <Stack.Screen name="Actor Details" component={ActorDetailsScreen} options={{ title: 'Actor Details' }} />
-      </Stack.Navigator>
+     <stack.Navigator screenOptions={{ headerShown: true }}>
+      <stack.Screen name="Back" component={TabNavigator} options={{ headerShown: false }}/>
+      <stack.Screen name="Show Details" component={ShowDetailsScreen} options={{ title: 'Show Details' }}/>
+      <stack.Screen name="Actor Details" component={ActorDetailsScreen} options={{ title:'Actor Details' }}/>
+     </stack.Navigator>
     </NavigationContainer>
-  );
+  )
 }
-
 
