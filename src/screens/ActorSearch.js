@@ -51,7 +51,7 @@ export default function ActorSearchScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     height: '100%',
-    backgroundColor: '#101'
+    backgroundColor: '#0C0016'
   },
   loadingContainer: {
     height: '100%',

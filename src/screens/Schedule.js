@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#101'
+    backgroundColor: '#0C0016'
   },
   resultsContainer: {
     flex: 1,
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   showTime: {
     marginBottom: 5,
-    color: 'gray',
+    color: '#aaa',
   },
   resultImage: {
     width: 250,
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   showSummary: {
     fontSize: 14,
-    color: 'gray',
+    color: '#aaa',
     marginTop: 15
   },
     loadingContainer: {

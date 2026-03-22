@@ -94,7 +94,7 @@ export default function ActorDetailsScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#101'
+    backgroundColor: '#0C0016'
   },
   resultImage: {
     width: '100%',

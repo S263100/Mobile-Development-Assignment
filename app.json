@@ -17,13 +17,19 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/tv-app.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.s263100.TVShowApp"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/tv-app.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "cf27ee24-c595-49fd-9f81-146f959d8eb5"
+      }
     }
   }
 }
